@@ -13,6 +13,7 @@ public class JonasFilesConfig
     public string[] WhitelistedPartialTexturePaths { get; set; } =
     [
         "seraph",
+        "transparent",
         "clothing",
         "skin/",
         "entity/humanoid",
@@ -36,6 +37,6 @@ public class JonasFilesConfig
         RedactText = previousConfig.RedactText;
         RedactTextures = previousConfig.RedactTextures;
         RedactionDensity = previousConfig.RedactionDensity;
-        WhitelistedPartialTexturePaths = [.. WhitelistedPartialTexturePaths];
+        WhitelistedPartialTexturePaths = [.. previousConfig.WhitelistedPartialTexturePaths];
     }
 }

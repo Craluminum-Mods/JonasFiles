@@ -1,0 +1,7 @@
+{
+    "Config.Setting.RedactText": "Redact text",
+    "Config.Setting.RedactTextures": "Redact textures",
+    "Config.Setting.RedactionDensity": "Redaction density (text only)",
+    "Config.Setting.WhitelistedPartialTexturePaths": "Whitelisted partial texture paths",
+    "Config.Warning.ReloadWorld": "Highly recommended to reload world after changing this value!"
+}

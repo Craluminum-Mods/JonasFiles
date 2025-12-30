@@ -48,7 +48,12 @@
       <HintPath>$(VINTAGE_STORY)/Lib/Microsoft.Data.Sqlite.dll</HintPath>
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
+    <Reference Include="configlib">
+        <HintPath>../Lib/configlib.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <PackageReference Include="VSImGui" Version="0.0.6" PrivateAssets="all" />
+</ItemGroup>
 
 <ItemGroup>
   <Content Include="modinfo.json">

@@ -28,12 +28,7 @@ public class ConfigLibCompatibility
 
     private void EditConfig(string id, ControlButtons buttons)
     {
-        if (buttons.Save)
-        {
-            ModConfig.WriteConfig(api, Core.Config);
-            (api as ICoreClientAPI)?.TriggerChatMessage(".reload textures");
-        }
-
+        if (buttons.Save) ModConfig.WriteConfig(api, Core.Config);
         if (buttons.Restore) Core.Config = ModConfig.ReadConfig(api);
         if (buttons.Defaults) Core.Config = new JonasFilesConfig(api);
         Edit(Core.Config, id);
@@ -46,6 +41,12 @@ public class ConfigLibCompatibility
         ImGui.NewLine();
         ImGui.TextWrapped(Lang.Get(WarningReloadWorld));
         config.RedactTextures = OnCheckBox(id, config.RedactTextures, nameof(config.RedactTextures));
+
+        if (ImGui.Button(Lang.Get("Reload textures")))
+        {
+            (api as ICoreClientAPI)?.TriggerChatMessage(".reload textures");
+        }
+
         ImGui.Separator();
         ImGui.NewLine();
         ImGui.TextWrapped(Lang.Get(WarningReloadWorld));

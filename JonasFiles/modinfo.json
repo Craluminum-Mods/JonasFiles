@@ -1,0 +1,13 @@
+{
+    "$schema": "https://moddbcdn.vintagestory.at/schema/modinfo.latest.json",
+    "side": "Client",
+    "type": "Code",
+    "modid": "jonasfiles",
+    "name": "Jonas Files",
+    "authors": ["Craluminum2413 (Dana)"],
+    "description": "Every texture is redacted",
+    "version": "1.0.0",
+    "dependencies": {
+        "game": "1.21.0"
+    }
+}

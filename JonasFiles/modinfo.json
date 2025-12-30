@@ -5,7 +5,7 @@
     "modid": "jonasfiles",
     "name": "Jonas Files",
     "authors": ["Craluminum2413 (Dana)"],
-    "description": "Every texture is redacted",
+    "description": "Where was Jonas Falx on January 6th 1318?",
     "version": "1.0.0",
     "dependencies": {
         "game": "1.21.0"

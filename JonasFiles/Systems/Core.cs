@@ -2,21 +2,20 @@
 using HarmonyLib;
 using JonasFiles.Configuration;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.Client.NoObf;
 
 namespace JonasFiles;
 
 public class Core : ModSystem
 {
     private Harmony HarmonyInstance => new Harmony(Mod.Info.ModID);
+    private DesaturationRenderer desatRenderer;
 
-    #nullable disable
+#nullable disable
     public static JonasFilesConfig Config { get; set; }
-    #nullable enable
+#nullable enable
 
     public override bool ShouldLoad(EnumAppSide forSide) => forSide.IsClient();
 
@@ -33,6 +32,15 @@ public class Core : ModSystem
     }
 
     public override void Dispose() => HarmonyInstance.UnpatchAll(HarmonyInstance.Id);
+
+
+    public override void StartClientSide(ICoreClientAPI api)
+    {
+        base.StartClientSide(api);
+
+        desatRenderer = new DesaturationRenderer(api);
+        desatRenderer.Register();
+    }
 }
 
 [HarmonyPatch(typeof(TextDrawUtil), nameof(TextDrawUtil.Lineize), [ typeof(Context), typeof(string), typeof(EnumLinebreakBehavior), typeof(TextFlowPath[]), typeof(double), typeof(double), typeof(double), typeof(bool)])]
@@ -57,29 +65,6 @@ public static class TextDrawUtil_DrawTextLine_Patch
     }
 }
 
-[HarmonyPatch(typeof(TextureAtlasManager), nameof(TextureAtlasManager.ToTextureAssetLocation))]
-public static class TextureAtlasManager_ToTextureAssetLocation_Patch
-{
-    [HarmonyPrefix]
-    public static bool Prefix(ref AssetLocationAndSource __result, AssetLocationAndSource loc)
-    {
-        if (!Core.Config.RedactTextures) return true;
-        if (!ShouldCensor(loc)) return true;
-
-        AssetLocationAndSource assetLocationAndSource = new AssetLocationAndSource("game", "textures/unknown", loc.Source);
-        assetLocationAndSource.Path = assetLocationAndSource.Path.Replace("@90", "").Replace("@180", "").Replace("@270", "");
-        assetLocationAndSource.Path = Regex.Replace(assetLocationAndSource.Path, "å\\d+", "");
-        assetLocationAndSource.WithPathAppendixOnce(".png");
-        __result = assetLocationAndSource;
-        return false;
-    }
-
-    private static bool ShouldCensor(AssetLocationAndSource loc)
-    {
-        string location = loc.ToString();
-        return !Core.Config.WhitelistedPartialTexturePaths.Any(location.Contains);
-    }
-}
 
 public static class TextCensorer
 {

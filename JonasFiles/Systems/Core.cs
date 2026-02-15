@@ -31,8 +31,12 @@ public class Core : ModSystem
         }
     }
 
-    public override void Dispose() => HarmonyInstance.UnpatchAll(HarmonyInstance.Id);
-
+    public override void Dispose()
+    {
+        HarmonyInstance.UnpatchAll(HarmonyInstance.Id);
+        desatRenderer?.Dispose();
+        desatRenderer = null;
+    }
 
     public override void StartClientSide(ICoreClientAPI api)
     {
